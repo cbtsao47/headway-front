@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Button, Flex, Input, Space, Stack } from "@trendmicro/react-styled-ui";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import { ApolloClient, InMemoryCache } from "@apollo/client";
 
+const client = new ApolloClient({
+  uri: "https://48p1r2roz4.sse.codesandbox.io",
+  cache: new InMemoryCache()
+});
 export default function App() {
   const [url, setUrl] = useState("");
   const [copied, setCopied] = useState(false);
