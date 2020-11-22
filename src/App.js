@@ -14,6 +14,7 @@ export default function App() {
   useEffect(() => {
     setCopied(false);
   }, [url]);
+  const callApi = () => {};
   return (
     <Stack>
       <Input
@@ -30,7 +31,9 @@ export default function App() {
           </CopyToClipboard>
         )}
         <Space width=".5rem" />
-        <Button flexGrow={1}>Shorten</Button>
+        <Button onClick={callApi} flexGrow={1}>
+          Shorten
+        </Button>
       </Flex>
     </Stack>
   );
