@@ -1,15 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { Button, Flex, Input, Space, Stack } from "@trendmicro/react-styled-ui";
+import {
+  Button,
+  Flex,
+  Input,
+  Space,
+  Spinner,
+  Stack,
+  Text
+} from "@trendmicro/react-styled-ui";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import { ApolloClient, InMemoryCache } from "@apollo/client";
+import { useQuery, gql } from "@apollo/client";
 
-const client = new ApolloClient({
-  uri: "https://48p1r2roz4.sse.codesandbox.io",
-  cache: new InMemoryCache()
-});
+const GET_URL = gql`
+  query {
+    url {
+      id
+      originalUrl
+    }
+  }
+`;
+
 export default function App() {
   const [url, setUrl] = useState("");
   const [copied, setCopied] = useState(false);
+  const { loading, error, data } = useQuery(GET_URL);
   const handleChange = (e) => {
     setUrl(e.target.value);
   };
@@ -27,6 +41,7 @@ export default function App() {
         value={url}
         placeholder="Enter a link to be shortened..."
       />
+      {error && <Text>{error}</Text>}
       <Flex my=".5rem">
         {copied ? (
           <Button flexGrow={1}>Copied</Button>
@@ -36,8 +51,8 @@ export default function App() {
           </CopyToClipboard>
         )}
         <Space width=".5rem" />
-        <Button onClick={callApi} flexGrow={1}>
-          Shorten
+        <Button disabled={loading} onClick={callApi} flexGrow={1}>
+          {loading ? <Spinner /> : <Text>Shorten</Text>}
         </Button>
       </Flex>
     </Stack>
